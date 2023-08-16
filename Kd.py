@@ -16,19 +16,32 @@ for m in get_monitors():
     height=m.height
     width=m.width
 
-def search(img):
+def search2():
+     while True:
+        for i in range(width): 
+          win32api.SetCursorPos((i,100))
+            
+colors=[[[225,53,52],[228,52,51], ]]
+def search(img,color=[226,53,51]):
+    print("Scanning sc")
     rows, cols, _ = img.shape
     for x in range(rows):
         for y in range(cols):
             px = list(img[x, y])
-            if px == [0, 255, 0]:
-                    print("GRØN")
+            if px[0] >200 and px[1] in range(48,55) and px[2] in range(48,53) :
+                    print("Color found - scanning next picture")
                     win32api.SetCursorPos((y,x))
                     return
 
 
 with mss() as sct:
     while True:
+        if cv2.waitKey(33) & 0xFF in (
+            ord('q'), 
+            27,
+        ):
+            break
+
         monitor_number = 1
         monitor = sct.monitors[monitor_number]
         print(monitor)
@@ -52,8 +65,4 @@ with mss() as sct:
 
         #print(detected_output)
        
-        if cv2.waitKey(33) & 0xFF in (
-            ord('q'), 
-            27, 
-        ):
-            break
+ 
